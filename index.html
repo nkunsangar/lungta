@@ -7,7 +7,7 @@
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <link href="css/formValidation.css" rel='stylesheet' type='text/css' />
 <link href="css/style.css" rel='stylesheet' type='text/css' />
-<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 <script src="js/jquery.min.js"></script>
 <!---- start-smoth-scrolling---->
 <script type="text/javascript" src="js/move-top.js"></script>
@@ -15,6 +15,7 @@
 <script type="text/javascript" src="js/formValidation.min.js"></script>
 <script type="text/javascript" src="js/framework/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/language/ru_RU.js"></script>
+<script type="text/javascript" src="js/jquery.jqgoogleforms.js"></script>
 </head>
 <body>
       <div class="banner" id="home">
@@ -264,6 +265,16 @@
 									            // Show the valid message element
 									            $field.next('.validMessage[data-field="' + field + '"]').hide();
 									        });									    
+									        
+									        $('[type="submit"]').click(function(e) {
+									        	e.preventDefault();
+									        	var googleForm = $(window).jqGoogleForms({"formKey": "1Xbm67_Mo-F8jjZ4fAszqj95uuxzoNgsl1-Uz4NMdkVI"});
+									        	
+									        	googleForm.sendFormData({
+												    "entry.1173043200": "some data",
+												    "entry.1617284232": "some more data"
+												});
+									        });
 										
 					});
 									
