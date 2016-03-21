@@ -396,6 +396,10 @@ body a{
 	margin-top: 3em;
 }
 
+.image-toggler .help-block {
+	display: none !important;
+}
+
 .caption{
          display:none;
          top:0;

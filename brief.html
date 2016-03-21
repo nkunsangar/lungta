@@ -18,7 +18,7 @@
 <script type="text/javascript" src="js/jquery.jqgoogleforms.js"></script>
 </head>
 <body>
-      <div class="banner" id="home">
+      <div class="briefbanner" id="home">
 		<div class="container">
 			<div class="header">
 				<div class="header-left">
@@ -48,7 +48,7 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-                       <div class="banner-text">
+                       <div class="briefbanner-text">
 				<h1>ЛУНГТА</h1>
 				<h3>Проект Северного Кунсангара</h3>
 				<ul>
@@ -65,11 +65,8 @@
                                 	<h2>О Лунгта</h2>
 				</div>
 				<div class="col-md-6 news-right">
-					<p>Лунгта - это 5-ти цветные молитвенные флажки, предназначенные для гармонизации и защиты пространства,
-устранения духовных и материальных препятствий и негативностей,
-призывания здоровья и долгой жизни,привлечения удачи и благосостояния.</p>
-					<p>Вы можете приобрести лунгта в комплектах по 5(150 рублей),15(300 рублей),25( 500 рублей) и 50 (900 рублей)флажков.
-Размер флажков - 25х25 см.</p>
+					<p>В Северном Кунсангаре теперь можно делают лунгта, которые можно купить по 5, 15, 25 и 50 штук.</p>
+					<p>Стоимость:...</p>
 				</div>
 				
 				<div class="clearfix"></div>
@@ -82,7 +79,7 @@
 			<form id="orderForm">
 				<div class="gallery-main">
 	
-					<div class="gallery-top form-group">
+					<div class="gallery-top">
 						<div class="gallery-top-img">
 							<label class="image-toggler">
 	                                                        <input type="radio" name="lungtaImage" value="korva">&nbsp;<img src="images/korva-tontrug.png" alt="">
@@ -121,20 +118,13 @@
 					<label for="orderComments">Ваши пожелания к заказу</label>
 					<textarea class="form-control" name="orderComments" id="orderComments" placeholder="Введите ваши пожелания"></textarea>
 				</div>
-				<div class="form-group">
-					<label for="orderCost">Стоимость заказа</label>
-					<span class="form-control" name="orderCost" id="orderCost"></span>
-				</div>
 				<button type="submit" class="btn btn-primary">Заказать лунгта</button>
 					<div class="gallery-bottom" id="contact">
 						<div class="col-md-6 gallery-bottom-text">
 							<p>Условия по оплате и получения заказа. Условия по оплате и получения заказа. Условия по оплате и получения заказа. Условия по оплате и получения заказа. Условия по оплате и получения заказа.</p>
 	   					</div>
 						<div class="col-md-6 gallery-bottom-text">
-							<h4>Наши реквизиты:</h4>
-							<p><b>карта Сбербанк РФ</b>: 5469 5500 2968 1548 </p>
-							<p><b>кошелек Яндекс.Денег</b>: 410011675199385</p>
-
+							<p>Наши реквизиты:</p>
 	   					</div>
 						<div class="clearfix"></div>
 					</div>
@@ -234,9 +224,6 @@
 									                            message: 'Минимум 5 штук',
 									                            value: 5,
 									                        },
-									                        notEmpty: {
-									                            message: 'Введите число',
-									                        },
 									                        callback: {
 									                        	message: 'Количество флажков должно быть кратно 5',
 									                        	callback: orderQuantityValidate
@@ -259,15 +246,12 @@
 									                    validators: {
 									                        emailAddress: {
 									                            message: 'E-mail неверный'
-									                        },
-									                        notEmpty: {
-									                            message: 'Введите e-mail',
-									                        },
+									                        }
 									                    }
 									                },
 									                lungtaImage: {
 									                    validators: {
-									                        notEmpty: {
+									                        callback: {
 									                            message: 'Выберите лунгта',
 									                            callback: lungtaCheck
 									                        }
@@ -291,20 +275,16 @@
 									        });									    
 									        
 									        $('[type="submit"]').click(function(e) {
-									        	/*e.preventDefault();
+									        	e.preventDefault();
 									        	var googleForm = $(window).jqGoogleForms({"formKey": "1Xbm67_Mo-F8jjZ4fAszqj95uuxzoNgsl1-Uz4NMdkVI"});
 									        	
 									        	googleForm.sendFormData({
 												    "entry.1173043200": "some data",
 												    "entry.1617284232": "some more data"
-												});*/
+												});
 									        });
 										
 					});
-						
-									function lungtaCheck(value, validator, $field) {
-										return false;
-									}
 									
 									function orderQuantityValidate(value, validator, $field) {
 									    // value is the value of field
@@ -327,7 +307,6 @@
 									    	q = parseInt(q);
 									    	var n5 = 0, n15 = 0, n25 = 0, n50 = 0;
 									    	$('#orderSets').html('');
-									    	$('#orderCost').html('');
 									    	if (q >= 5 && q/5.0 == parseInt(q/5)) {
 									    		while (q > 0) {
 									    			if (q >= 50) {
@@ -360,8 +339,6 @@
 									    			sets += n50 + ' по 50 флажков, ';
 									    		sets = sets.substring(0, sets.length-2);
 									    		$('#orderSets').html(sets);
-									    		var price = n5 * 150 + n15 * 300 + n25 * 500 + n50 * 900;
-									    		$('#orderCost').html(price + ' рублей');
 									    	}
 									    });
 								    }
