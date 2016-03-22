@@ -10,6 +10,7 @@
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 <script src="js/jquery.min.js"></script>
 <!---- start-smoth-scrolling---->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/move-top.js"></script>
 <script type="text/javascript" src="js/easing.js"></script>
 <script type="text/javascript" src="js/formValidation.min.js"></script>
@@ -79,7 +80,7 @@
 	<div class="gallery" id="order">
 		<div class="container">
 			<h2>Закажите Лунгта</h2>
-			<form id="orderForm">
+			<form id="orderForm" method="POST" action=".">
 				<div class="gallery-main">
 	
 					<div class="gallery-top form-group">
@@ -108,6 +109,7 @@
 					<label for="orderQuantity">Количество флажков</label>
 					<input type="text" class="form-control" name="orderQuantity" id="orderQuantity" placeholder="Количество флажков должно быть кратно 5">
 					<div>Требуемые комплекты: <span id="orderSets"></span> </div>
+					<input type="hidden" name="orderSets">
 				</div>
 				<div class="form-group">
 					<label for="orderName">Имя</label>
@@ -116,6 +118,10 @@
 				<div class="form-group">
 					<label for="orderEmail">E-mail</label>
 					<input type="email" class="form-control" name="orderEmail" id="orderEmail" placeholder="Введите ваш e-mail">
+				</div>
+				<div class="form-group">
+					<label for="orderPhone">Телефон</label>
+					<input type="text" class="form-control" name="orderPhone" id="orderPhone" placeholder="Введите номер вашего телефона">
 				</div>
 				<div class="form-group">
 					<label for="orderComments">Ваши пожелания к заказу</label>
@@ -132,7 +138,7 @@
 	   					</div>
 						<div class="col-md-6 gallery-bottom-text">
 							<h4>Наши реквизиты:</h4>
-							<p><b>карта Сбербанк РФ</b>: 5469 5500 2968 1548 </p>
+							<p><b>карта Сбербанка РФ</b>: 5469 5500 2968 1548 </p>
 							<p><b>кошелек Яндекс.Денег</b>: 410011675199385</p>
 
 	   					</div>
@@ -147,12 +153,14 @@
 				<div class="col-md-6 footer-main-left">
 					<h3>ЛУНГТА</h3>
 					<div class="footer-bottom">
-                       <!--div class="col-md-6 footer-bottom-left">
-							<p class=active>Production time</p>
+           	<div class="col-md-6 footer-bottom-left">
+							<!--p class=active>Production time</p>
 							<p>Questions and answers </p>
-							<p>Payment methods</p>
+							<p>Payment methods</p-->
+							<p><b>E-mail:</b> <a href="mailto:lungta.nk@gmail.com">lungta.nk@gmail.com</a></p>
+							<p><b>Телефон:</b> +7 915 285 09 44</p>
 						</div>
-						<div class="col-md-6 footer-bottom-left">
+						<!--div class="col-md-6 footer-bottom-left">
 							<p>Shipping information</p>
 							<p>Feedback</p>
 							<p>User agreement</p>
@@ -265,6 +273,13 @@
 									                        },
 									                    }
 									                },
+									                orderPhone: {
+									                    validators: {
+									                        notEmpty: {
+									                            message: 'Введите номер телефона',
+									                        },
+									                    }
+									                },									             
 									                lungtaImage: {
 									                    validators: {
 									                        notEmpty: {
@@ -291,8 +306,52 @@
 									        });									    
 									        
 									        $('[type="submit"]').click(function(e) {
-									        	/*e.preventDefault();
-									        	var googleForm = $(window).jqGoogleForms({"formKey": "1Xbm67_Mo-F8jjZ4fAszqj95uuxzoNgsl1-Uz4NMdkVI"});
+									        	e.preventDefault();
+									        	
+									        	var url = "http://www.kunsangar.ru/lungta_orders/new_order.php";
+									        	
+												$.ajax({
+													type: "POST",
+													url: url,
+													data: $('#orderForm').serialize(),
+													success: function(data) {
+													  try {
+															data = $.parseJSON(data);
+													  }
+													  catch(e)
+													  {
+													    data = null;
+													  }
+														// console.log(data);
+														// console.log(typeof data);
+														if (data.error != undefined) {
+															$('#orderReport .modal-title').html('Ошибка');
+												        	$('#orderReport').html('Ошибка: ' + data.error);
+												        	$('#orderModal').modal();
+														}
+														else {
+															$('#orderReport .modal-title').html('Заказ получен');
+												        	$('#orderReport').html('Спасибо! Ваш заказ получен. Номер вашего заказа: ' + data.order_id);
+												        	$('#orderModal').modal();
+											        	}
+													},
+													error: function(data) {
+													  try {
+															data = $.parseJSON(data);
+													  }
+													  catch(e)
+													  {
+													    data = null;
+													  }
+														// console.log(data);
+														$('#orderReport .modal-title').html('Ошибка');
+											        	$('#orderReport').html('Ошибка во время отправления информации о заказа. Попробуйте позже');
+											        	$('#orderModal').modal();
+													}
+												});
+									        	
+									        	
+									        	/*var googleForm = $(window).jqGoogleForms({"formKey": "1Xbm67_Mo-F8jjZ4fAszqj95uuxzoNgsl1-Uz4NMdkVI"});
 									        	
 									        	googleForm.sendFormData({
 												    "entry.1173043200": "some data",
@@ -327,6 +386,7 @@
 									    	q = parseInt(q);
 									    	var n5 = 0, n15 = 0, n25 = 0, n50 = 0;
 									    	$('#orderSets').html('');
+									    	$('[name="orderSets"]').val('');
 									    	$('#orderCost').html('');
 									    	if (q >= 5 && q/5.0 == parseInt(q/5)) {
 									    		while (q > 0) {
@@ -360,6 +420,7 @@
 									    			sets += n50 + ' по 50 флажков, ';
 									    		sets = sets.substring(0, sets.length-2);
 									    		$('#orderSets').html(sets);
+									    		$('[name="orderSets"]').val(sets);
 									    		var price = n5 * 150 + n15 * 300 + n25 * 500 + n50 * 900;
 									    		$('#orderCost').html(price + ' рублей');
 									    	}
@@ -371,5 +432,23 @@
 				</script>
 					<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 		</div>
+		
+<div id="orderModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+		<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Заказ получен</h4>
+        </div>
+        <div class="modal-body">
+          <p id="orderReport">This is a small modal.</p>
+        </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть окно</button>
+	      </div>
+    </div>
+  </div>
+</div>
+		
 </body>
 </html>
