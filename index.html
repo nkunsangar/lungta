@@ -80,22 +80,10 @@
 	<div class="gallery" id="order">
 		<div class="container">
 			<h2>Закажите Лунгта</h2>
-			<form id="orderForm" method="POST" action=".">
+			<form id="orderForm">
 				<div class="gallery-main">
 	
 					<div class="gallery-top form-group">
-						<!--<div class="gallery-top-img">
-							<label class="image-toggler">
-	                                                        <input type="radio" name="lungtaImage" value="korva">&nbsp;<img src="images/korva-tontrug.png" alt="">
-	                                                        <span>Корва Тонтруг</span>
-	                        </label>
-						</div>
-						<div class="gallery-top-img">
-							<label class="image-toggler">
-	                                                        <input type="radio" name="lungtaImage" value="vajrasattva">&nbsp;<img src="images/vajrasattva.png" alt="">
-	                                                        <span>Ваджрасаттва Яб-Юм</span>
-	                        </label>
-						</div>-->
 						<div class="gallery-top-img">
 							<label class="image-toggler">
 	                                                        <input type="radio" name="lungtaImage" value="songvajra">&nbsp;<img src="images/pv.png" alt="">
@@ -254,6 +242,7 @@
 									                invalid: 'glyphicon glyphicon-remove',
 									                validating: 'glyphicon glyphicon-refresh'
 									            },
+												live: 'enabled',
 									            fields: {
 									                orderQuantity: {
 									                    validators: {
@@ -303,9 +292,10 @@
 									                    }
 									                },									             
 									                lungtaImage: {
+														autoFocus: false,
 									                    validators: {
 									                        notEmpty: {
-									                            message: 'Выберите лунгта',
+									                            message: 'Выберите лунгта!',
 									                            callback: lungtaCheck
 									                        }
 									                    }
@@ -325,11 +315,8 @@
 									
 									            // Show the valid message element
 									            $field.next('.validMessage[data-field="' + field + '"]').hide();
-									        });									    
-									        
-									        $('[type="submit"]').click(function(e) {
-									        	e.preventDefault();
-									        	
+									        })
+											.on('success.form.fv', function(e) {
 									        	var url = "http://www.kunsangar.ru/lungta_orders/new_order.php";
 									        	
 												$.ajax({
@@ -379,7 +366,12 @@
 												    "entry.1173043200": "some data",
 												    "entry.1617284232": "some more data"
 												});*/
-									        });
+												return false;
+									        })
+											.submit(function(e) {
+												e.preventDefault();
+												return false;
+											});
 										
 					});
 						

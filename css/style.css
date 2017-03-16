@@ -362,10 +362,20 @@ body a{
 .choose-right-top {
 	padding: 1.5em 0px;
 }
+
+#orderForm .help-block {
+	font-weight: bold;
+}
+.has-error .help-block {
+	color: #b92222;
+}
 .gallery-top {
 	background: #666;
 	padding: 1em;
 	border-radius: 8px;
+}
+.gallery-top .help-block {
+	color: red;
 }
 .gallery-top-img{
 	width:33%;
